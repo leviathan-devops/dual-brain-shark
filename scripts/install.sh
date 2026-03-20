@@ -1,0 +1,139 @@
+#!/bin/bash
+# DeepSeek Brain Skill - One-Line Installer
+# Usage: curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/deepseek-brain-skill/main/scripts/install.sh | bash
+
+set -e
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+# Configuration
+REPO_URL="https://github.com/YOUR_USERNAME/deepseek-brain-skill.git"
+SKILL_DIR="$HOME/.qwen/skills/deepseek-brain"
+BACKUP_DIR="$HOME/.qwen/skills/deepseek-brain.backup.$(date +%s)"
+CONFIG_DIR="$HOME/.deepseek-brain"
+
+echo -e "${BLUE}╔══════════════════════════════════════════════════════════╗${NC}"
+echo -e "${BLUE}║       DeepSeek Brain Skill - Installer                   ║${NC}"
+echo -e "${BLUE}║       Qwen Code + DeepSeek R1 = Double-Brain             ║${NC}"
+echo -e "${BLUE}╚══════════════════════════════════════════════════════════╝${NC}"
+echo ""
+
+# Check for Python
+if ! command -v python3 &> /dev/null; then
+    echo -e "${RED}✗ Python 3 is required but not installed.${NC}"
+    exit 1
+fi
+echo -e "${GREEN}✓${NC} Python 3 found"
+
+# Check for requests library
+if ! python3 -c "import requests" &> /dev/null; then
+    echo -e "${YELLOW}! Installing 'requests' library...${NC}"
+    pip install requests --break-system-packages -q 2>/dev/null || pip install requests -q 2>/dev/null || true
+fi
+echo -e "${GREEN}✓${NC} Requests library ready"
+
+# Backup existing installation
+if [ -d "$SKILL_DIR" ]; then
+    echo -e "${YELLOW}! Backing up existing installation...${NC}"
+    mv "$SKILL_DIR" "$BACKUP_DIR"
+    echo -e "${GREEN}✓${NC} Backup saved to: $BACKUP_DIR"
+fi
+
+# Clone or copy skill files
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(dirname "$SCRIPT_DIR")"
+
+if [ -d "$REPO_ROOT/skills/deepseek-brain" ]; then
+    echo -e "${GREEN}✓${NC} Installing from local repository..."
+    mkdir -p "$(dirname "$SKILL_DIR")"
+    cp -r "$REPO_ROOT/skills/deepseek-brain" "$SKILL_DIR"
+elif command -v git &> /dev/null && [ ! -z "$REPO_URL" ]; then
+    echo -e "${YELLOW}! Cloning repository...${NC}"
+    mkdir -p "$(dirname "$SKILL_DIR")"
+    git clone "$REPO_URL" /tmp/deepseek-brain-temp 2>/dev/null || {
+        echo -e "${RED}✗ Failed to clone repository.${NC}"
+        echo -e "${YELLOW}! Installing from local files instead...${NC}"
+        cp -r "$SCRIPT_DIR/../skills/deepseek-brain" "$SKILL_DIR"
+    }
+    if [ -d "/tmp/deepseek-brain-temp/skills/deepseek-brain" ]; then
+        cp -r /tmp/deepseek-brain-temp/skills/deepseek-brain "$SKILL_DIR"
+        rm -rf /tmp/deepseek-brain-temp
+    fi
+else
+    echo -e "${YELLOW}! Installing from local files...${NC}"
+    mkdir -p "$(dirname "$SKILL_DIR")"
+    cp -r "$SCRIPT_DIR/../skills/deepseek-brain" "$SKILL_DIR"
+fi
+echo -e "${GREEN}✓${NC} Skill files installed to: $SKILL_DIR"
+
+# Create config directory
+mkdir -p "$CONFIG_DIR"
+if [ ! -f "$CONFIG_DIR/config.json" ]; then
+    cat > "$CONFIG_DIR/config.json" << 'EOF'
+{
+  "api_key": "YOUR_API_KEY_HERE",
+  "model": "deepseek-reasoner",
+  "timeout": 120,
+  "max_loops": 10,
+  "yolo_mode": true,
+  "verbose": false
+}
+EOF
+    echo -e "${YELLOW}!${NC} Config created: $CONFIG_DIR/config.json"
+    echo -e "${YELLOW}  Edit this file to add your DeepSeek API key${NC}"
+fi
+
+# Add aliases to bash_aliases
+ALIASES_FILE="$HOME/.bash_aliases"
+if ! grep -q "deepseek-brain" "$ALIASES_FILE" 2>/dev/null; then
+    cat >> "$ALIASES_FILE" << 'EOF'
+
+# DeepSeek Brain Skill
+alias deepseek='python3 ~/.qwen/skills/deepseek-brain/run.py'
+alias deepseek-brain='python3 ~/.qwen/skills/deepseek-brain/deepseek-brain.py'
+alias ds='python3 ~/.qwen/skills/deepseek-brain/run.py'
+EOF
+    echo -e "${GREEN}✓${NC} Aliases added to ~/.bash_aliases"
+else
+    echo -e "${GREEN}✓${NC} Aliases already exist"
+fi
+
+# Make scripts executable
+chmod +x "$SKILL_DIR"/*.py 2>/dev/null || true
+chmod +x "$SKILL_DIR"/deepseek 2>/dev/null || true
+echo -e "${GREEN}✓${NC} Scripts made executable"
+
+# Source bash_aliases if in interactive shell
+if [ -f "$ALIASES_FILE" ] && [ -n "$PS1" ]; then
+    source "$ALIASES_FILE" 2>/dev/null || true
+fi
+
+echo ""
+echo -e "${GREEN}╔══════════════════════════════════════════════════════════╗${NC}"
+echo -e "${GREEN}║  Installation Complete! 🎉                               ║${NC}"
+echo -e "${GREEN}╚══════════════════════════════════════════════════════════╝${NC}"
+echo ""
+echo -e "${BLUE}Next steps:${NC}"
+echo ""
+echo -e "  1. ${YELLOW}Add your API key:${NC}"
+echo -e "     Edit: $CONFIG_DIR/config.json"
+echo ""
+echo -e "  2. ${YELLOW}Test the installation:${NC}"
+echo -e "     deepseek \"say hello and run: echo test\""
+echo ""
+echo -e "  3. ${YELLOW}In Qwen Code, say:${NC}"
+echo -e "     \"plug in to deepseek brain\""
+echo ""
+echo -e "${BLUE}Available commands:${NC}"
+echo "  deepseek \"task\"          - Run a task"
+echo "  deepseek-brain           - Interactive mode"
+echo "  ds \"task\"              - Quick alias"
+echo "  deepseek --reset \"task\" - Fresh context"
+echo ""
+echo -e "${YELLOW}Need help?${NC} See: https://github.com/YOUR_USERNAME/deepseek-brain-skill"
+echo ""
