@@ -1,6 +1,6 @@
 #!/bin/bash
 # Dual Brain Shark Skill - One-Line Installer
-# Usage: curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/dual-brain-shark/main/scripts/install.sh | bash
+# Usage: curl -fsSL https://raw.githubusercontent.com/leviathan-devops/dual-brain-shark/main/scripts/install.sh | bash
 
 set -e
 
@@ -12,7 +12,7 @@ BLUE='\033[0;34m'
 NC='\033[0m'
 
 # Configuration
-REPO_URL="https://github.com/YOUR_USERNAME/dual-brain-shark.git"
+REPO_URL="https://github.com/leviathan-devops/dual-brain-shark.git"
 SKILL_DIR="$HOME/.qwen/skills/shark"
 BACKUP_DIR="$HOME/.qwen/skills/shark.backup.$(date +%s)"
 CONFIG_DIR="$HOME/.dual-brain-shark"
@@ -131,5 +131,5 @@ echo -e "${BLUE}Available commands:${NC}"
 echo "  shark \"task\"          - Run a task"
 echo "  shark-brain           - Interactive mode"
 echo ""
-echo -e "${YELLOW}Need help?${NC} See: https://github.com/YOUR_USERNAME/dual-brain-shark"
+echo -e "${YELLOW}Need help?${NC} See: https://github.com/leviathan-devops/dual-brain-shark"
 echo ""

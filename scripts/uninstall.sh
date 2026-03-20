@@ -70,5 +70,5 @@ echo -e "${GREEN}║  Uninstall Complete!                                     �
 echo -e "${GREEN}╚══════════════════════════════════════════════════════════╝${NC}"
 echo ""
 echo -e "${YELLOW}To reinstall:${NC}"
-echo "  curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/dual-brain-shark/main/scripts/install.sh | bash"
+echo "  curl -fsSL https://raw.githubusercontent.com/leviathan-devops/dual-brain-shark/main/scripts/install.sh | bash"
 echo ""
