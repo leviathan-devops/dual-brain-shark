@@ -1,5 +1,5 @@
 #!/bin/bash
-# DeepSeek Brain Skill - Uninstaller
+# Dual Brain Shark Skill - Uninstaller
 # Usage: ./scripts/uninstall.sh
 
 set -e
@@ -11,17 +11,17 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
-SKILL_DIR="$HOME/.qwen/skills/deepseek-brain"
-CONFIG_DIR="$HOME/.deepseek-brain"
+SKILL_DIR="$HOME/.qwen/skills/shark"
+CONFIG_DIR="$HOME/.dual-brain-shark"
 ALIASES_FILE="$HOME/.bash_aliases"
 
 echo -e "${BLUE}╔══════════════════════════════════════════════════════════╗${NC}"
-echo -e "${BLUE}║       DeepSeek Brain Skill - Uninstaller                 ║${NC}"
+echo -e "${BLUE}║       Dual Brain Shark - Uninstaller                     ║${NC}"
 echo -e "${BLUE}╚══════════════════════════════════════════════════════════╝${NC}"
 echo ""
 
 # Confirm uninstall
-read -p "Are you sure you want to uninstall DeepSeek Brain skill? [y/N] " -n 1 -r
+read -p "Are you sure you want to uninstall Dual Brain Shark skill? [y/N] " -n 1 -r
 echo
 if [[ ! $REPLY =~ ^[Yy]$ ]]; then
     echo -e "${YELLOW}Uninstall cancelled.${NC}"
@@ -53,14 +53,14 @@ fi
 if [ -f "$ALIASES_FILE" ]; then
     echo -e "${YELLOW}! Removing aliases...${NC}"
     cp "$ALIASES_FILE" "$ALIASES_FILE.backup.$(date +%s)"
-    grep -v "deepseek-brain\|deepseek-brain\|alias ds=" "$ALIASES_FILE" > "$ALIASES_FILE.tmp" || true
+    grep -v "shark\|shark-brain" "$ALIASES_FILE" > "$ALIASES_FILE.tmp" || true
     mv "$ALIASES_FILE.tmp" "$ALIASES_FILE"
     echo -e "${GREEN}✓${NC} Aliases removed from ~/.bash_aliases"
 fi
 
 # Clean up history file
-if [ -f "/tmp/deepseek-qwen-history.json" ]; then
-    rm "/tmp/deepseek-qwen-history.json"
+if [ -f "/tmp/shark-history.json" ]; then
+    rm "/tmp/shark-history.json"
     echo -e "${GREEN}✓${NC} Conversation history cleared"
 fi
 
@@ -70,5 +70,5 @@ echo -e "${GREEN}║  Uninstall Complete!                                     �
 echo -e "${GREEN}╚══════════════════════════════════════════════════════════╝${NC}"
 echo ""
 echo -e "${YELLOW}To reinstall:${NC}"
-echo "  curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/deepseek-brain-skill/main/scripts/install.sh | bash"
+echo "  curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/dual-brain-shark/main/scripts/install.sh | bash"
 echo ""

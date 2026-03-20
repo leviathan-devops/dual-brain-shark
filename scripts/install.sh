@@ -1,6 +1,6 @@
 #!/bin/bash
-# DeepSeek Brain Skill - One-Line Installer
-# Usage: curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/deepseek-brain-skill/main/scripts/install.sh | bash
+# Dual Brain Shark Skill - One-Line Installer
+# Usage: curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/dual-brain-shark/main/scripts/install.sh | bash
 
 set -e
 
@@ -9,17 +9,17 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+NC='\033[0m'
 
 # Configuration
-REPO_URL="https://github.com/YOUR_USERNAME/deepseek-brain-skill.git"
-SKILL_DIR="$HOME/.qwen/skills/deepseek-brain"
-BACKUP_DIR="$HOME/.qwen/skills/deepseek-brain.backup.$(date +%s)"
-CONFIG_DIR="$HOME/.deepseek-brain"
+REPO_URL="https://github.com/YOUR_USERNAME/dual-brain-shark.git"
+SKILL_DIR="$HOME/.qwen/skills/shark"
+BACKUP_DIR="$HOME/.qwen/skills/shark.backup.$(date +%s)"
+CONFIG_DIR="$HOME/.dual-brain-shark"
 
 echo -e "${BLUE}╔══════════════════════════════════════════════════════════╗${NC}"
-echo -e "${BLUE}║       DeepSeek Brain Skill - Installer                   ║${NC}"
-echo -e "${BLUE}║       Qwen Code + DeepSeek R1 = Double-Brain             ║${NC}"
+echo -e "${BLUE}║       Dual Brain Shark - Installer                       ║${NC}"
+echo -e "${BLUE}║       Qwen Code + DeepSeek R1 = Dual Brain               ║${NC}"
 echo -e "${BLUE}╚══════════════════════════════════════════════════════════╝${NC}"
 echo ""
 
@@ -48,26 +48,25 @@ fi
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(dirname "$SCRIPT_DIR")"
 
-if [ -d "$REPO_ROOT/skills/deepseek-brain" ]; then
+if [ -d "$REPO_ROOT/skills/shark" ]; then
     echo -e "${GREEN}✓${NC} Installing from local repository..."
     mkdir -p "$(dirname "$SKILL_DIR")"
-    cp -r "$REPO_ROOT/skills/deepseek-brain" "$SKILL_DIR"
+    cp -r "$REPO_ROOT/skills/shark" "$SKILL_DIR"
 elif command -v git &> /dev/null && [ ! -z "$REPO_URL" ]; then
     echo -e "${YELLOW}! Cloning repository...${NC}"
     mkdir -p "$(dirname "$SKILL_DIR")"
-    git clone "$REPO_URL" /tmp/deepseek-brain-temp 2>/dev/null || {
-        echo -e "${RED}✗ Failed to clone repository.${NC}"
+    git clone "$REPO_URL" /tmp/shark-temp 2>/dev/null || {
         echo -e "${YELLOW}! Installing from local files instead...${NC}"
-        cp -r "$SCRIPT_DIR/../skills/deepseek-brain" "$SKILL_DIR"
+        cp -r "$SCRIPT_DIR/../skills/shark" "$SKILL_DIR"
     }
-    if [ -d "/tmp/deepseek-brain-temp/skills/deepseek-brain" ]; then
-        cp -r /tmp/deepseek-brain-temp/skills/deepseek-brain "$SKILL_DIR"
-        rm -rf /tmp/deepseek-brain-temp
+    if [ -d "/tmp/shark-temp/skills/shark" ]; then
+        cp -r /tmp/shark-temp/skills/shark "$SKILL_DIR"
+        rm -rf /tmp/shark-temp
     fi
 else
     echo -e "${YELLOW}! Installing from local files...${NC}"
     mkdir -p "$(dirname "$SKILL_DIR")"
-    cp -r "$SCRIPT_DIR/../skills/deepseek-brain" "$SKILL_DIR"
+    cp -r "$SCRIPT_DIR/../skills/shark" "$SKILL_DIR"
 fi
 echo -e "${GREEN}✓${NC} Skill files installed to: $SKILL_DIR"
 
@@ -90,13 +89,12 @@ fi
 
 # Add aliases to bash_aliases
 ALIASES_FILE="$HOME/.bash_aliases"
-if ! grep -q "deepseek-brain" "$ALIASES_FILE" 2>/dev/null; then
+if ! grep -q "shark" "$ALIASES_FILE" 2>/dev/null; then
     cat >> "$ALIASES_FILE" << 'EOF'
 
-# DeepSeek Brain Skill
-alias deepseek='python3 ~/.qwen/skills/deepseek-brain/run.py'
-alias deepseek-brain='python3 ~/.qwen/skills/deepseek-brain/deepseek-brain.py'
-alias ds='python3 ~/.qwen/skills/deepseek-brain/run.py'
+# Dual Brain Shark Skill
+alias shark='python3 ~/.qwen/skills/shark/run.py'
+alias shark-brain='python3 ~/.qwen/skills/shark/shark-brain.py'
 EOF
     echo -e "${GREEN}✓${NC} Aliases added to ~/.bash_aliases"
 else
@@ -105,7 +103,7 @@ fi
 
 # Make scripts executable
 chmod +x "$SKILL_DIR"/*.py 2>/dev/null || true
-chmod +x "$SKILL_DIR"/deepseek 2>/dev/null || true
+chmod +x "$SKILL_DIR"/shark 2>/dev/null || true
 echo -e "${GREEN}✓${NC} Scripts made executable"
 
 # Source bash_aliases if in interactive shell
@@ -115,7 +113,7 @@ fi
 
 echo ""
 echo -e "${GREEN}╔══════════════════════════════════════════════════════════╗${NC}"
-echo -e "${GREEN}║  Installation Complete! 🎉                               ║${NC}"
+echo -e "${GREEN}║  Installation Complete! 🦈                               ║${NC}"
 echo -e "${GREEN}╚══════════════════════════════════════════════════════════╝${NC}"
 echo ""
 echo -e "${BLUE}Next steps:${NC}"
@@ -124,16 +122,14 @@ echo -e "  1. ${YELLOW}Add your API key:${NC}"
 echo -e "     Edit: $CONFIG_DIR/config.json"
 echo ""
 echo -e "  2. ${YELLOW}Test the installation:${NC}"
-echo -e "     deepseek \"say hello and run: echo test\""
+echo -e "     shark \"say hello and run: echo test\""
 echo ""
 echo -e "  3. ${YELLOW}In Qwen Code, say:${NC}"
 echo -e "     \"plug in to deepseek brain\""
 echo ""
 echo -e "${BLUE}Available commands:${NC}"
-echo "  deepseek \"task\"          - Run a task"
-echo "  deepseek-brain           - Interactive mode"
-echo "  ds \"task\"              - Quick alias"
-echo "  deepseek --reset \"task\" - Fresh context"
+echo "  shark \"task\"          - Run a task"
+echo "  shark-brain           - Interactive mode"
 echo ""
-echo -e "${YELLOW}Need help?${NC} See: https://github.com/YOUR_USERNAME/deepseek-brain-skill"
+echo -e "${YELLOW}Need help?${NC} See: https://github.com/YOUR_USERNAME/dual-brain-shark"
 echo ""

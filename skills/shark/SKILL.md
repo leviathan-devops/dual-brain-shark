@@ -1,10 +1,10 @@
 ---
-name: deepseek-brain
-description: DeepSeek R1 reasoning with Qwen Code execution. Double-brain architecture for complex tasks. Triggers include "plug in to deepseek brain", "use deepseek", "deepseek reasoning", or any request for AI-powered reasoning with device access.
-allowed-tools: Bash(python3 ~/.qwen/skills/deepseek-brain/*)
+name: shark
+description: Dual Brain Shark - DeepSeek R1 reasoning with Qwen Code execution. Triggers include "plug in to deepseek brain", "use deepseek", "shark mode", or any request for AI-powered reasoning with device access.
+allowed-tools: Bash(python3 ~/.qwen/skills/shark/*)
 ---
 
-# DeepSeek Brain - Double-Brain Architecture
+# Dual Brain Shark
 
 **DeepSeek R1** = Reasoning engine (smarter, better at complex tasks)
 **Qwen Code** = Execution hands (full device access, YOLO mode)
@@ -13,17 +13,17 @@ allowed-tools: Bash(python3 ~/.qwen/skills/deepseek-brain/*)
 
 ```bash
 # One-shot command
-python3 ~/.qwen/skills/deepseek-brain/run.py "create a flask app"
+python3 ~/.qwen/skills/shark/run.py "create a flask app"
 
 # Reset context and start fresh
-python3 ~/.qwen/skills/deepseek-brain/run.py --reset "new task"
+python3 ~/.qwen/skills/shark/run.py --reset "new task"
 
 # Interactive terminal mode
-python3 ~/.qwen/skills/deepseek-brain/deepseek-brain.py
+python3 ~/.qwen/skills/shark/shark-brain.py
 
 # Or use aliases
-deepseek "task"
-deepseek-brain  # interactive
+shark "task"
+shark-brain  # interactive
 ```
 
 ## How It Works
@@ -63,13 +63,13 @@ pip install flask -q
 |---------|-------------|
 | `run.py "task"` | Execute task with auto-run |
 | `run.py --reset "task"` | Fresh context |
-| `deepseek-brain.py` | Interactive mode |
-| `deepseek-loop.py "task"` | Full loop executor |
+| `shark-brain.py` | Interactive mode |
+| `shark-loop.py "task"` | Full loop executor |
 
 ## Configuration
 
 - **API Key:** `sk-e8e93e31b582423e9fdaa4ab8e9347e2`
-- **History:** `/tmp/deepseek-qwen-history.json`
+- **History:** `/tmp/shark-history.json`
 - **Model:** `deepseek-reasoner`
 - **Timeout:** 120s API, 300s commands
 
@@ -77,4 +77,4 @@ pip install flask -q
 
 **API errors:** Check API key validity
 **Timeout:** Commands have 300s timeout
-**History stuck:** `rm /tmp/deepseek-qwen-history.json`
+**History stuck:** `rm /tmp/shark-history.json`

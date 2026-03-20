@@ -6,7 +6,7 @@ Full interactive session with DeepSeek R1.
 Conversation persists across runs.
 
 Usage:
-    deepseek-brain
+    shark
 """
 
 import requests

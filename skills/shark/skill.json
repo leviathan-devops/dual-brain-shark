@@ -1,0 +1,27 @@
+{
+  "name": "shark",
+  "version": "1.0.0",
+  "description": "Dual Brain Shark - DeepSeek R1 reasoning with Qwen Code execution.",
+  "triggers": [
+    "plug in to deepseek brain",
+    "use deepseek",
+    "shark mode",
+    "dual brain shark"
+  ],
+  "execution": {
+    "type": "shell",
+    "command": "python3",
+    "args": ["~/.qwen/skills/shark/run.py", "${input}"],
+    "mode": "yolo"
+  },
+  "files": {
+    "main": "run.py",
+    "interactive": "shark-brain.py",
+    "loop": "shark-loop.py"
+  },
+  "config": {
+    "api_key": "sk-e8e93e31b582423e9fdaa4ab8e9347e2",
+    "history_file": "/tmp/shark-history.json",
+    "model": "deepseek-reasoner"
+  }
+}

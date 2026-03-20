@@ -1,5 +1,5 @@
 #!/bin/bash
-# DeepSeek Brain Skill - Test Suite
+# Dual Brain Shark Skill - Test Suite
 # Usage: ./scripts/test.sh
 
 set -e
@@ -13,10 +13,10 @@ NC='\033[0m'
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(dirname "$SCRIPT_DIR")"
-SKILL_DIR="$REPO_ROOT/skills/deepseek-brain"
+SKILL_DIR="$REPO_ROOT/skills/shark"
 
 echo -e "${BLUE}╔══════════════════════════════════════════════════════════╗${NC}"
-echo -e "${BLUE}║       DeepSeek Brain Skill - Test Suite                  ║${NC}"
+echo -e "${BLUE}║       Dual Brain Shark - Test Suite                      ║${NC}"
 echo -e "${BLUE}╚══════════════════════════════════════════════════════════╝${NC}"
 echo ""
 
@@ -40,9 +40,9 @@ echo -e "${YELLOW}Checking skill files...${NC}"
 
 required_files=(
     "run.py"
-    "deepseek-brain.py"
-    "deepseek-loop.py"
-    "deepseek-client.py"
+    "shark-brain.py"
+    "shark-loop.py"
+    "shark-client.py"
     "SKILL.md"
     "skill.json"
 )
@@ -133,5 +133,5 @@ echo ""
 echo -e "${YELLOW}Next steps:${NC}"
 echo "  1. Run './scripts/install.sh' to install the skill"
 echo "  2. Add your DeepSeek API key"
-echo "  3. Test with: deepseek \"say hello\""
+echo "  3. Test with: shark \"say hello\""
 echo ""
